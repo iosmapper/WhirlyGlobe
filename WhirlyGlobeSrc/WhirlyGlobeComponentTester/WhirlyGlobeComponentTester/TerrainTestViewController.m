@@ -77,7 +77,7 @@
     NSString *cacheDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)  objectAtIndex:0];
     NSString *jsonTileSpec = @"http://a.tiles.mapbox.com/v3/examples.map-zyt2v9k2.json";
     NSString *thisCacheDir = [NSString stringWithFormat:@"%@/mbtilessat1/",cacheDir];
-    //jsonTileSpec = nil;
+    // jsonTileSpec = nil;
     
     // Fill out the cache dir if there is one
     if (thisCacheDir)
@@ -115,13 +115,20 @@
          ];
         
         [operation start];
+    } else {
+        MaplyQuadTestLayer *layer = [[MaplyQuadTestLayer alloc] initWithMaxZoom:17];
+        [self.globeView addLayer:layer];
+        layer.drawPriority = 100;
+
+        [self.globeView animateToPosition:MaplyCoordinateMakeWithDegrees(-71.3032, 44.2705) time:1.0];
+        self.globeView.height = 0.003;
+        [self.globeView setTiltMinHeight:0.001 maxHeight:0.04 minTilt:1.21771169 maxTilt:0.0];
+        [self.globeView setTilt:M_PI/4];
+
     }
     
-    /*
-     MaplyQuadTestLayer *layer = [[MaplyQuadTestLayer alloc] initWithMaxZoom:17];
-     [self.globeView addLayer:layer];
-     layer.drawPriority = 100;
-     */
+    
+    
     
     
         
