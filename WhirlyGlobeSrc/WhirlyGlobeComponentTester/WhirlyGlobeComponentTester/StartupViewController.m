@@ -19,6 +19,7 @@
  */
 
 #import "StartupViewController.h"
+#import "TerrainTestViewController.h"
 
 @interface StartupViewController ()
 
@@ -107,6 +108,9 @@
         case MaplyScrollViewMap:
             cell.textLabel.text = @"Map - UIScrollView (2D)";
             break;
+        case TerrainTestMap:
+            cell.textLabel.text = @"Terrain Test";
+            break;
         default:
             break;
     }
@@ -120,6 +124,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row == TerrainTestMap) {
+        TerrainTestViewController *vc = [[TerrainTestViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        return;
+    }
+
     TestViewController *viewC = [[TestViewController alloc] initWithMapType:indexPath.row];
     [self.navigationController pushViewController:viewC animated:YES];
 }

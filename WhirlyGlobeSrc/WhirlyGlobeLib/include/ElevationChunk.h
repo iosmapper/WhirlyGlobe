@@ -33,6 +33,10 @@
 /// Fills in a chunk with random data values.  For testing.
 + (WhirlyKitElevationChunk *)ElevationChunkWithRandomData;
 
+/// POC: Load a chunk of elevation data for a tile.
++(WhirlyKitElevationChunk *)loadElevationChunkForLevel:(int)level col:(int)col row:(int)row;
+
+
 /// Initialize with an NSData full of floats (elevaiton in meters)
 /// SizeX and SizeY are the number of samples in each direction
 - (id)initWithFloatData:(NSData *)data sizeX:(int)sizeX sizeY:(int)sizeY;

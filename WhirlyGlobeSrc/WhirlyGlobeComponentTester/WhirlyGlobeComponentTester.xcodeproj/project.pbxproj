@@ -303,6 +303,8 @@
 		2BFD27EA170B933C00127EF5 /* ZMB.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 2BFD26F1170B933C00127EF5 /* ZMB.geojson */; };
 		2BFD27EB170B933C00127EF5 /* ZWE.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 2BFD26F2170B933C00127EF5 /* ZWE.geojson */; };
 		2BFF026217A9BA2D00007842 /* AnimationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFF026117A9BA2D00007842 /* AnimationTest.m */; };
+		81DAE88417CBD6D400FF883C /* TerrainTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DAE88317CBD6D400FF883C /* TerrainTestViewController.m */; };
+		81DAE88717CBD87D00FF883C /* terraintest1_x.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 81DAE88617CBD87D00FF883C /* terraintest1_x.sqlite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -630,6 +632,9 @@
 		2BFD26F2170B933C00127EF5 /* ZWE.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ZWE.geojson; sourceTree = "<group>"; };
 		2BFF026017A9BA2C00007842 /* AnimationTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationTest.h; sourceTree = "<group>"; };
 		2BFF026117A9BA2D00007842 /* AnimationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationTest.m; sourceTree = "<group>"; };
+		81DAE88217CBD6D400FF883C /* TerrainTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerrainTestViewController.h; sourceTree = "<group>"; };
+		81DAE88317CBD6D400FF883C /* TerrainTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerrainTestViewController.m; sourceTree = "<group>"; };
+		81DAE88617CBD87D00FF883C /* terraintest1_x.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = terraintest1_x.sqlite; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -721,6 +726,9 @@
 				2B62DD8516E7F3A2001F52FC /* TestViewController.m */,
 				2B62DD6416E7F0BC001F52FC /* Supporting Files */,
 				2BFD25D8170B929E00127EF5 /* resources */,
+				81DAE88217CBD6D400FF883C /* TerrainTestViewController.h */,
+				81DAE88317CBD6D400FF883C /* TerrainTestViewController.m */,
+				81DAE88617CBD87D00FF883C /* terraintest1_x.sqlite */,
 			);
 			path = WhirlyGlobeComponentTester;
 			sourceTree = "<group>";
@@ -1394,6 +1402,7 @@
 				2BFD27EA170B933C00127EF5 /* ZMB.geojson in Resources */,
 				2BFD27EB170B933C00127EF5 /* ZWE.geojson in Resources */,
 				2B0D633117A2EEE900C3298D /* AFKissXMLRequestOperation.h in Resources */,
+				81DAE88717CBD87D00FF883C /* terraintest1_x.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1420,6 +1429,7 @@
 				2B0D632A17A2EEAB00C3298D /* UIImageView+AFNetworking.m in Sources */,
 				2B0D633817A2F2BB00C3298D /* AFKissXMLRequestOperation.m in Sources */,
 				2BFF026217A9BA2D00007842 /* AnimationTest.m in Sources */,
+				81DAE88417CBD6D400FF883C /* TerrainTestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

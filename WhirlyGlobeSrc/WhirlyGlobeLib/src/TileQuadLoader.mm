@@ -537,7 +537,8 @@ void LoadedTile::Print(Quadtree *tree)
         doingUpdate = false;
         borderTexel = 0;
         _includeElev = false;
-        _useElevAsZ = false;
+        _useElevAsZ = true;
+//        _useElevAsZ = false;
         _tileScale = WKTileScaleNone;
         _fixedTileSize = 256;
         texelBinSize = 64;
@@ -1281,6 +1282,10 @@ static const int SingleElementSize = sizeof(GLushort);
     WhirlyKitElevationChunk *loadElev = nil;
     if ([loadTile isKindOfClass:[WhirlyKitLoadedImage class]])
         loadImage = loadTile;
+        loadElev = [WhirlyKitElevationChunk loadElevationChunkForLevel:level col:col row:row];
+        if (loadElev) {
+            NSLog(@"Found elevation data");
+        }
     else if ([loadTile isKindOfClass:[WhirlyKitElevationChunk class]])
         loadElev = loadTile;
     else if ([loadTile isKindOfClass:[WhirlyKitLoadedTile class]])

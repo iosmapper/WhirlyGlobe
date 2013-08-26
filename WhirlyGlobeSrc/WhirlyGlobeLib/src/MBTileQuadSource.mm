@@ -181,6 +181,7 @@ using namespace WhirlyKit;
     WhirlyKitLoadedTile *tileData = [[WhirlyKitLoadedTile alloc] init];
     [tileData.images addObject:loadImage];
 //    tileData.elevChunk = [WhirlyKitElevationChunk ElevationChunkWithRandomData];
+    tileData.elevChunk = [WhirlyKitElevationChunk loadElevationChunkForLevel:level col:col row:row];
     [quadLoader dataSource:self loadedImage:tileData forLevel:level col:col row:row];
 }
 
