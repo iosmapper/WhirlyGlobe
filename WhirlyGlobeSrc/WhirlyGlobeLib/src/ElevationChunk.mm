@@ -19,11 +19,24 @@
  */
 
 #import "ElevationChunk.h"
+#import "sqlhelpers.h"
 
 using namespace Eigen;
 using namespace WhirlyKit;
 
 typedef enum {WhirlyKitElevationFloats,WhirlyKitElevationShorts} WhirlyKitElevationFormat;
+
+// Just add some properties so the logging in interpolate works
+@interface WhirlyKitElevationChunk () {
+    
+}
+
+@property int tilelevel;
+@property int tilecol;
+@property int tilerow;
+
+@end
+
 
 @implementation WhirlyKitElevationChunk
 {
@@ -43,6 +56,90 @@ typedef enum {WhirlyKitElevationFloats,WhirlyKitElevationShorts} WhirlyKitElevat
     
     return chunk;
 }
+
+/*
+ This is a giant hack to test terrain.  Would not implement this way, just trying to figure out terrain system
+ */
++(WhirlyKitElevationChunk *)loadElevationChunkForLevel:(int)level col:(int)col row:(int)row {
+    sqlite3 *sqlDb;
+    
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"terraintest1_x" ofType:@"sqlite"];
+    if (sqlite3_open([path cStringUsingEncoding:NSASCIIStringEncoding],&sqlDb) != SQLITE_OK)
+    {
+        return nil;
+    }
+    
+    NSData *terrainData = nil;
+    int numx = 20;
+    int numy = 20;
+    int ymax = pow(2.0, level);
+    int y = ymax - row - 1;
+    
+    @try {
+        
+        if ((level == 11) && (col == 618) && (y == 742))  {
+            // Mt. Washington
+            NSLog(@"Requesting Terrain Data  zoom:%i x:%i y:%i", level, col, y);
+        }
+        sqlhelpers::StatementRead readStmt(sqlDb,[NSString stringWithFormat:@"SELECT terraindata from wgterrain where zoom=%i AND tilex=%i AND tiley=%i;",level,col,y]);
+        if (readStmt.stepRow()) {
+            //            NSLog(@"Loaded Data  zoom:%i x:%i y:%i", level, col, y);
+            terrainData = readStmt.getBlob();
+        }
+        
+        sqlhelpers::StatementRead readNumXStmt(sqlDb,[NSString stringWithFormat:@"SELECT numx from wgterrain where zoom=%i AND tilex=%i AND tiley=%i;",level,col,y]);
+        if (readNumXStmt.stepRow()) {
+            //            NSLog(@"Loaded Data  zoom:%i x:%i y:%i", level, col, y);
+            numx = readNumXStmt.getInt();
+        }
+        
+        sqlhelpers::StatementRead readNumYStmt(sqlDb,[NSString stringWithFormat:@"SELECT numy from wgterrain where zoom=%i AND tilex=%i AND tiley=%i;",level,col,y]);
+        if (readNumYStmt.stepRow()) {
+            //            NSLog(@"Loaded Data  zoom:%i x:%i y:%i", level, col, y);
+            numy = readNumYStmt.getInt();
+        }
+        
+        
+        
+    } @finally {
+        sqlite3_close(sqlDb);
+    }
+    
+    if (!terrainData) {
+        return nil;
+    }
+    
+    //    return [WhirlyKitElevationChunk ElevationChunkWithRandomData];
+    
+    if ((level == 11) && (col == 618) && (y == 742))  {
+        // Mt. Washington
+        for (int yy=0; yy < numy; yy++) {
+            NSMutableString *currentLine = [NSMutableString stringWithFormat:@"%i:", yy];
+            for (int xx=0; xx < numx; xx++) {
+                float value = ((float *)[terrainData bytes])[yy*numx+xx];
+                [currentLine appendFormat:@" %4.0f", value];
+            }
+            NSLog(@"%@", currentLine);
+        }
+        NSLog(@"Done");
+        
+    }
+    
+    
+    
+    WhirlyKitElevationChunk *chunk = [[WhirlyKitElevationChunk alloc] initWithFloatData:terrainData
+                                                                                  sizeX:numx
+                                                                                  sizeY:numy];
+    chunk.tilecol = col;
+    chunk.tilerow = y;
+    chunk.tilelevel = level;
+    return chunk;
+    
+    
+}
+
+
 
 - (id)initWithFloatData:(NSData *)inData sizeX:(int)sizeX sizeY:(int)sizeY
 {
@@ -122,6 +219,16 @@ typedef enum {WhirlyKitElevationFloats,WhirlyKitElevationShorts} WhirlyKitElevat
     float elev1 = (elevs[2]-elevs[3])*ta + elevs[3];
     float ret = (elev1-elev0)*tb + elev0;
     
+    
+    if ((self.tilelevel == 11) && (self.tilecol == 618) && (self.tilerow == 742))  {
+        if (y == 19.5) {
+            // This is here so I can set a breakpoint
+//            NSLog(@"19.5");
+        }
+        // This shows the various atomic requests for this particular tile
+        NSLog(@"x:%f y:%f alt:%f", x, y, ret);
+    }
+
     return ret;
 }
 
