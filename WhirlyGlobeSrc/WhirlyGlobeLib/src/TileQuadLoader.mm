@@ -1346,13 +1346,14 @@ static const int SingleElementSize = sizeof(GLushort);
     
     std::vector<WhirlyKitLoadedImage *> loadImages;
     WhirlyKitElevationChunk *loadElev = nil;
-    if ([loadTile isKindOfClass:[WhirlyKitLoadedImage class]])
-        loadImage = loadTile;
+    if ([loadTile isKindOfClass:[WhirlyKitLoadedImage class]]) {
+//        loadImage = loadTile;
         loadElev = [WhirlyKitElevationChunk loadElevationChunkForLevel:level col:col row:row];
         if (loadElev) {
             NSLog(@"Found elevation data");
         }
         loadImages.push_back(loadTile);
+    }
     else if ([loadTile isKindOfClass:[WhirlyKitElevationChunk class]])
         loadElev = loadTile;
     else if ([loadTile isKindOfClass:[WhirlyKitLoadedTile class]])
