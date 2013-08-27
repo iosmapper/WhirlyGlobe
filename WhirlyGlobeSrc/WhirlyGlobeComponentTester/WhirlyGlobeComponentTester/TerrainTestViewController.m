@@ -97,7 +97,7 @@
          {
              // Add a quad earth paging layer based on the tile spec we just fetched
              MaplyQuadEarthWithRemoteTiles *layer = [[MaplyQuadEarthWithRemoteTiles alloc] initWithTilespec:JSON];
-             layer.handleEdges = true;
+             layer.handleEdges = NO;
              layer.cacheDir = thisCacheDir;
              [self.globeView addLayer:layer];
              layer.drawPriority = 150;
