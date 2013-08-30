@@ -37,7 +37,8 @@
 +(WhirlyKitElevationChunk *)loadElevationChunkForLevel:(int)level col:(int)col row:(int)row;
 
 
-/// Initialize with an NSData full of floats (elevaiton in meters)
+/// Initialize with an NSData full of floats (elevation in meters)
+
 /// SizeX and SizeY are the number of samples in each direction
 - (id)initWithFloatData:(NSData *)data sizeX:(int)sizeX sizeY:(int)sizeY;
 
