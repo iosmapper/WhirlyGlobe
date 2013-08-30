@@ -112,7 +112,7 @@
              
              self.globeView.height = 0.001;
              [self.globeView setTiltMinHeight:0.001 maxHeight:0.04 minTilt:1.21771169 maxTilt:0.0];
-             [self.globeView setTilt:M_PI/4];
+             [self.globeView setTilt:M_PI/2.2];
              [self.globeView animateToPosition:MaplyCoordinateMakeWithDegrees(-71.3032, 44.2705) time:1.0];
 
          }
