@@ -7,14 +7,16 @@
 
 #import "TerrainTestViewController.h"
 #import "AFJSONRequestOperation.h"
+#import "FMDatabase.h"
+#import "FMDatabasePool.h"
 
-
-@interface TerrainTestViewController () {
+@interface TerrainTestViewController () <MaplyElevationSourceDelegate> {
     
 }
 
 @property WhirlyGlobeViewController *globeView;
-
+@property MaplySphericalMercator *coordSys;
+@property FMDatabasePool *terrainData;
 @end
 
 @implementation TerrainTestViewController
@@ -48,9 +50,15 @@
     //    [self.globeView animateToPosition:MaplyCoordinateMakeWithDegrees(-122.4192, 37.7793) time:1.0];
     
     [self.globeView setMaxLayoutObjects:10000];
-    
-    
+    self.coordSys = [[MaplySphericalMercator alloc] initWebStandard];
+    self.globeView.elevDelegate = self;
     [self setupBaseLayer];
+    [self.globeView setHints:@{kMaplyRenderHintZBuffer: @(YES)}];
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"terraintest1_x" ofType:@"sqlite"];
+    self.terrainData = [FMDatabasePool databasePoolWithPath:path];
+//    [self.terrainData open];
+    
     
     
     
@@ -128,14 +136,86 @@
     }
     
     
-    
-    
-    
-        
-    
-    
-    
-    
 }
+
+
+/// Coordinate system we're providing the data in (and extents)
+- (MaplyCoordinateSystem *)getCoordSystem {
+    return self.coordSys;
+
+}
+
+/// Minimum zoom level (e.g. 0)
+- (int)minZoom {
+    return 1;
+}
+
+/// Maximum zoom level (e.g. 17)
+- (int)maxZoom {
+    return 16;
+}
+
+/// Return an elevation chunk (or nil) for a given tile
+- (MaplyElevationChunk *)elevForTile:(MaplyTileID)tileID {
+    /*
+     This is a giant hack to test terrain.  Would not implement this way, just trying to figure out terrain system
+     */
+        __block NSData *terrainData = nil;
+        __block int numx = 20;
+        __block int numy = 20;
+        int ymax = pow(2.0, tileID.level);
+    int y = ymax - tileID.y - 1;
+        
+        @try {
+            
+            if ((tileID.level == 11) && (tileID.x == 618) && (tileID.y == 742))  {
+                // Mt. Washington
+                NSLog(@"Requesting Terrain Data  zoom:%i x:%i y:%i", tileID.level, tileID.x, y);
+            }
+            
+
+            [self.terrainData inDatabase:^(FMDatabase *db) {
+                NSString *stmtStr = [NSString stringWithFormat:@"SELECT numx, numy, terraindata from wgterrain where zoom=%i AND tilex=%i AND tiley=%i;",tileID.level,tileID.x,y];
+                FMResultSet *rs = [db executeQuery:stmtStr];
+                if (rs && [rs next]) {
+                    numx = [rs intForColumnIndex:0];
+                    numy = [rs intForColumnIndex:1];
+                    terrainData = [rs dataForColumnIndex:2];
+                }
+                [rs close];
+            }];
+            
+            
+        } @finally {
+        }
+        
+        if (!terrainData) {
+            return nil;
+        }
+        
+        //    return [WhirlyKitElevationChunk ElevationChunkWithRandomData];
+        
+        if ((tileID.level == 11) && (tileID.x == 618) && (y == 742))  {
+            // Mt. Washington
+            for (int yy=0; yy < numy; yy++) {
+                NSMutableString *currentLine = [NSMutableString stringWithFormat:@"%i:", yy];
+                for (int xx=0; xx < numx; xx++) {
+                    float value = ((float *)[terrainData bytes])[yy*numx+xx];
+                    [currentLine appendFormat:@" %4.0f", value];
+                }
+                NSLog(@"%@", currentLine);
+            }
+            NSLog(@"Done");
+            
+        }
+        
+        MaplyElevationChunk *chunk = [[MaplyElevationChunk alloc] initWithData:terrainData
+                                                                          numX:numx
+                                                                          numY:numy];
+        return chunk;
+        
+        
+}
+
 
 @end

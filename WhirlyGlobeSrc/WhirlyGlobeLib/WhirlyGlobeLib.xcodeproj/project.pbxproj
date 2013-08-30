@@ -413,6 +413,7 @@
 		2BF401BB15C0B47C00B5BFD9 /* UpdateDisplayLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2BF401B915C0B47C00B5BFD9 /* UpdateDisplayLayer.mm */; };
 		2BF401BC15C0B47C00B5BFD9 /* ViewPlacementGenerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2BF401BA15C0B47C00B5BFD9 /* ViewPlacementGenerator.mm */; };
 		2BF7435C155D7CCE000499DD /* NSString+Stuff.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2BF7435B155D7CCE000499DD /* NSString+Stuff.mm */; };
+		8126CFF817D0646100920862 /* sqlhelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B65F90B137DBEE4004326A9 /* sqlhelpers.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1947,6 +1948,7 @@
 				2BB1787417A8313E00AD0614 /* BillboardManager.h in Headers */,
 				2BB1787517A8313E00AD0614 /* ParticleSystemManager.h in Headers */,
 				2BB1787617A8313E00AD0614 /* LoftManager.h in Headers */,
+				8126CFF817D0646100920862 /* sqlhelpers.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

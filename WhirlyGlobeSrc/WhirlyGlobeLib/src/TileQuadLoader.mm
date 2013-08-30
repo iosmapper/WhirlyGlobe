@@ -1350,7 +1350,6 @@ static const int SingleElementSize = sizeof(GLushort);
     WhirlyKitElevationChunk *loadElev = nil;
     if ([loadTile isKindOfClass:[WhirlyKitLoadedImage class]]) {
 //        loadImage = loadTile;
-        loadElev = [WhirlyKitElevationChunk loadElevationChunkForLevel:level col:col row:row];
         if (loadElev) {
             NSLog(@"Found elevation data");
         }
