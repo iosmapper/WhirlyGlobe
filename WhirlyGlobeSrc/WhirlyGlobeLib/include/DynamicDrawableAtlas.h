@@ -46,7 +46,7 @@ public:
     
     /// For drawables that can point to a range of textures, we keep the source texture IDs around and remap
     ///  to the destination texture IDs like so.  This doesn't actually make the changes
-    void mapDrawableTextures(const std::vector<SimpleIdentity> &srcTexIDs,const std::vector<SimpleIdentity> &destTexIds,ChangeSet &changes);
+    void mapDrawableTextures(unsigned int which,const std::vector<SimpleIdentity> &srcTexIDs,const std::vector<SimpleIdentity> &destTexIds,ChangeSet &changes);
         
     /// Check if there are any active updates in any of the drawable buffers
     bool hasUpdates();
@@ -101,7 +101,7 @@ protected:
     public:
         BigDrawableInfo() { }
         BigDrawableInfo(SimpleIdentity baseTexId,BigDrawable *bigDraw) : baseTexId(baseTexId), bigDraw(bigDraw) { }
-        BigDrawableInfo & operator = (const BigDrawableInfo &that) { baseTexId = that.baseTexId;  bigDraw = that.bigDraw; return *this; }
+        BigDrawableInfo & operator = (const BigDrawableInfo &that) { baseTexId = that.baseTexId; bigDraw = that.bigDraw; return *this; }
         bool operator < (const BigDrawableInfo &that) const { return bigDraw->getId() > that.bigDraw->getId(); }
         // This is the texture ID we associated with the big drawable.
         SimpleIdentity baseTexId;

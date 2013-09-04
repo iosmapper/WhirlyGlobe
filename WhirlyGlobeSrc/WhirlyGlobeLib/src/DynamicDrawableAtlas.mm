@@ -89,7 +89,8 @@ bool DynamicDrawableAtlas::addDrawable(BasicDrawable *draw,ChangeSet &changes,bo
     for (BigDrawableSet::iterator it = bigDrawables.begin(); it != bigDrawables.end(); ++it)
     {
         BigDrawableInfo bigDrawInfo = *it;
-        if (bigDrawInfo.baseTexId == draw->getTexId() && bigDrawInfo.bigDraw->isCompatible(draw))
+        if (bigDrawInfo.baseTexId == draw->getTexId(0)
+            && bigDrawInfo.bigDraw->isCompatible(draw))
         {
             if ((represent.elementChunkId = bigDrawInfo.bigDraw->addRegion(vertData, represent.vertexPos, elementData,enabled)) != EmptyIdentity)
             {
@@ -114,9 +115,11 @@ bool DynamicDrawableAtlas::addDrawable(BasicDrawable *draw,ChangeSet &changes,bo
         newBigDraw->setModes(draw);
         newBigDraw->setupGL(NULL, memManager);
         changes.push_back(new AddDrawableReq(newBigDraw));
-        bigDrawables.insert(BigDrawableInfo(newBigDraw->getTexId(),newBigDraw));
-        if (destTexId != EmptyIdentity)
-            newBigDraw->setTexId(destTexId);
+        bigDrawables.insert(BigDrawableInfo(draw->getTexId(0),newBigDraw));
+        if (destTexId != EmptyIdentity && newBigDraw->texInfo.size() > 0)
+        {
+            newBigDraw->texInfo[0].texId = destTexId;
+        }
         represent.bigDrawId = newBigDraw->getId();
         if ((represent.elementChunkId = newBigDraw->addRegion(vertData, represent.vertexPos, elementData,enabled)) != EmptyIdentity)
         {
@@ -203,7 +206,7 @@ bool DynamicDrawableAtlas::removeDrawable(SimpleIdentity drawId,ChangeSet &chang
     return true;
 }
     
-void DynamicDrawableAtlas::mapDrawableTextures(const std::vector<SimpleIdentity> &srcTexIDs,const std::vector<SimpleIdentity> &destTexIds,ChangeSet &changes)
+void DynamicDrawableAtlas::mapDrawableTextures(unsigned int which,const std::vector<SimpleIdentity> &srcTexIDs,const std::vector<SimpleIdentity> &destTexIds,ChangeSet &changes)
 {
     for (BigDrawableSet::iterator it = bigDrawables.begin();
          it != bigDrawables.end(); ++it)
@@ -212,7 +215,7 @@ void DynamicDrawableAtlas::mapDrawableTextures(const std::vector<SimpleIdentity>
         SimpleIdentity baseTexId = it->baseTexId;
         for (unsigned int ii=0;ii<srcTexIDs.size();ii++)
             if (baseTexId == srcTexIDs[ii])
-                changes.push_back(new BigDrawableTexChangeRequest(it->bigDraw->getId(),destTexIds[ii]));
+                changes.push_back(new BigDrawableTexChangeRequest(it->bigDraw->getId(),which,destTexIds[ii]));
     }
 }
     

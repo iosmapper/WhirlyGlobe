@@ -30,11 +30,10 @@
 #import <MaplyViewTracker.h>
 #import <MaplyViewController.h>
 #import <MaplyQuadPagingLayer.h>
-#import <MaplyQuadEarthTilesLayer.h>
-#import <MaplyQuadEarthWithMBTiles.h>
-#import <MaplyQuadEarthWithRemoteTiles.h>
-#import <MaplySphericalQuadEarthWithTexGroup.h>
-#import <MaplyQuadTestLayer.h>
+#import <MaplyQuadImageTilesLayer.h>
 #import <MaplyTileSource.h>
 #import <MaplyWMSTileSource.h>
+#import <MaplyMBTileSource.h>
+#import <MaplyRemoteTileSource.h>
+#import <MaplyAnimationTestTileSource.h>
 #import <MaplyElevationSource.h>
