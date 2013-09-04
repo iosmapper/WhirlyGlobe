@@ -9,6 +9,8 @@
 #import "AFJSONRequestOperation.h"
 #import "FMDatabase.h"
 #import "FMDatabasePool.h"
+#import "MaplyQuadImageTilesLayer.h"
+
 
 @interface TerrainTestViewController () <MaplyElevationSourceDelegate> {
     
@@ -104,7 +106,10 @@
                                                         success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
          {
              // Add a quad earth paging layer based on the tile spec we just fetched
-             MaplyQuadEarthWithRemoteTiles *layer = [[MaplyQuadEarthWithRemoteTiles alloc] initWithTilespec:JSON];
+//             MaplyQuadImageTilesLayer *layer = [[MaplyQuadImageTilesLayer alloc] initWithTilespec:JSON];
+             MaplyRemoteTileSource *tileSource = [[MaplyRemoteTileSource alloc] initWithTilespec:JSON];
+             MaplyQuadImageTilesLayer *layer = [[MaplyQuadImageTilesLayer alloc] initWithCoordSystem:tileSource.coordSys tileSource:tileSource];
+             
              layer.handleEdges = YES;
              layer.cacheDir = thisCacheDir;
              [self.globeView addLayer:layer];
@@ -124,7 +129,8 @@
         
         [operation start];
     } else {
-        MaplyQuadTestLayer *layer = [[MaplyQuadTestLayer alloc] initWithMaxZoom:17];
+        MaplyAnimationTestTileSource *tileSource = [[MaplyAnimationTestTileSource alloc] initWithCoordSys:[[MaplySphericalMercator alloc] initWebStandard] minZoom:0 maxZoom:17];
+        MaplyQuadImageTilesLayer *layer = [[MaplyQuadImageTilesLayer alloc] initWithCoordSystem:tileSource.coordSys tileSource:tileSource];
         [self.globeView addLayer:layer];
         layer.drawPriority = 100;
 
