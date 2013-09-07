@@ -102,7 +102,8 @@ static const char *fragmentShaderTriMultiTex =
 "{"
 "  vec4 baseColor0 = texture2D(s_baseMap0, v_texCoord0);"
 "  vec4 baseColor1 = texture2D(s_baseMap1, v_texCoord1);"
-"  gl_FragColor = v_color * mix(vec4(baseColor0.r,baseColor0.r,baseColor0.r,baseColor0.r),vec4(baseColor1.r,baseColor1.r,baseColor1.r,baseColor1.r),u_interp);"
+"  gl_FragColor = v_color * mix(vec4(baseColor0.r,baseColor0.g,baseColor0.b,baseColor0.a),vec4(baseColor1.r,baseColor1.g,baseColor1.b,baseColor1.a),u_interp);"
+//mix(vec4(baseColor0.r,baseColor0.r,baseColor0.r,baseColor0.r),vec4(baseColor1.r,baseColor1.r,baseColor1.r,baseColor1.r),u_interp);"
 "}"
 ;
 
